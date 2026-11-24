@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#3d8bd6" />
+    <title>Untitled light puzzle</title>
+    <script type="module" crossorigin src="./assets/index-D68-oxyb.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-e5RsqiqU.css">
+  </head>
+  <body>
+    <div class="sky" aria-hidden="true">
+      <div class="orb orb-rose"></div>
+      <div class="orb orb-mint"></div>
+      <div class="orb orb-periwinkle"></div>
+    </div>
+
+    <main id="start-screen" class="screen start">
+      <!-- The game's name is still being decided; this placeholder stands in for it. -->
+      <h1 class="title">untitled</h1>
+      <div class="hairline" aria-hidden="true"></div>
+      <div class="home-actions">
+        <button id="play-button" class="text-button" type="button">
+          tutorial
+        </button>
+        <button id="levels-button" class="text-button" type="button">
+          levels
+        </button>
+      </div>
+      <p id="graphics-error" class="graphics-error" role="alert" hidden>
+        This game needs 3D graphics, and this browser has them turned off. Turn
+        on hardware acceleration in your browser's settings, then reload, or
+        open the game in a different browser.
+      </p>
+    </main>
+
+    <main id="levels-screen" class="screen levels" hidden>
+      <header class="game-header">
+        <button
+          id="levels-back-button"
+          class="back-button"
+          type="button"
+          aria-label="Back to start"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M14.5 6l-6 6 6 6" />
+          </svg>
+        </button>
+        <h2 class="level-name">Levels</h2>
+      </header>
+      <p id="levels-locked-note" class="hint levels-note" hidden>
+        Finish the tutorial to unlock the levels.
+      </p>
+      <div id="level-worlds" class="level-worlds"></div>
+    </main>
+
+    <main id="game-screen" class="screen game" hidden>
+      <div id="board-wrap" class="board-wrap">
+        <canvas id="board" aria-label="Puzzle island"></canvas>
+      </div>
+      <header class="game-header">
+        <button
+          id="back-button"
+          class="back-button"
+          type="button"
+          aria-label="Back to start"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M14.5 6l-6 6 6 6" />
+          </svg>
+        </button>
+        <div id="level-label" class="level-label">
+          <span id="level-number" class="level-number"></span>
+          <span id="level-name" class="level-name"></span>
+        </div>
+        <button
+          id="guide-button"
+          class="hint-button guide-button"
+          type="button"
+          aria-label="What each piece does"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M4 5.5c3-1.5 6-1.5 8 .5 2-2 5-2 8-.5V19c-3-1.5-6-1.5-8 .5-2-2-5-2-8-.5z"
+            />
+            <path d="M12 6v13.5" />
+          </svg>
+          <span class="guide-new" aria-hidden="true">!</span>
+        </button>
+        <button
+          id="hint-button"
+          class="hint-button"
+          type="button"
+          aria-label="Hint"
+        >
+          ?<span id="hints-left" class="hints-left"></span>
+        </button>
+        <div class="target-key">
+          <span id="target-swatches" class="target-swatches"></span>
+          <span id="target-key-label" class="target-key-label">target</span>
+        </div>
+      </header>
+      <p id="hint-message" class="hint-message" role="status" hidden></p>
+      <div class="game-spacer"></div>
+
+      <footer class="game-footer">
+        <div id="tray" class="tray" hidden></div>
+        <p id="hint" class="hint"></p>
+        <div id="solved-panel" class="solved-panel" hidden>
+          <p id="solved-message" class="solved-message">Solved</p>
+          <p id="solved-turns" class="solved-turns"></p>
+          <button id="next-button" class="text-button" type="button">
+            continue
+          </button>
+        </div>
+      </footer>
+    </main>
+
+    <div
+      id="guide"
+      class="guide"
+      role="dialog"
+      aria-label="What each piece does"
+      hidden
+    >
+      <div class="guide-card">
+        <div class="guide-head">
+          <h2>What each piece does</h2>
+          <button
+            id="guide-close"
+            class="guide-close"
+            type="button"
+            aria-label="Close"
+          >
+            ×
+          </button>
+        </div>
+        <ul class="guide-list">
+          <li class="guide-item" data-topics="crystal">
+            <svg viewBox="0 0 32 32" aria-hidden="true">
+              <path d="M16 4l6 10-6 14-6-14z" fill="#ff6b6b" />
+            </svg>
+            <div>
+              <strong>Crystal</strong>
+              <p>Shines a beam of its color in one direction.</p>
+            </div>
+          </li>
+          <li class="guide-item" data-topics="altar">
+            <svg viewBox="0 0 32 32" aria-hidden="true">
+              <circle
+                cx="16"
+                cy="16"
+                r="10"
+                fill="none"
+                stroke="#ffd447"
+                stroke-width="3"
+              />
+              <circle cx="16" cy="16" r="4" fill="#3a3a4a" />
+              <path
+                d="M5 5l4 4M27 5l-4 4M5 27l4-4M27 27l-4-4"
+                stroke="#ffd447"
+                stroke-width="2.5"
+              />
+            </svg>
+            <div>
+              <strong>Altar</strong>
+              <p>
+                Wants light of its ring's color. A ring that goes only partway
+                around wants dimmer light; the card at the top says how much.
+              </p>
+            </div>
+          </li>
+          <li class="guide-item" data-topics="mirror">
+            <svg viewBox="0 0 32 32" aria-hidden="true">
+              <rect x="6" y="14" width="20" height="5" rx="1" fill="#d9a93a" />
+              <rect
+                x="7"
+                y="9"
+                width="18"
+                height="6"
+                fill="#e8f4ff"
+                stroke="#d9a93a"
+                stroke-width="1.5"
+              />
+            </svg>
+            <div>
+              <strong>Mirror</strong>
+              <p>
+                Bounces light off its face. Tap to turn it an eighth; drag to
+                turn it freely.
+              </p>
+            </div>
+          </li>
+          <li class="guide-item" data-topics="splitter">
+            <svg viewBox="0 0 32 32" aria-hidden="true">
+              <rect
+                x="7"
+                y="7"
+                width="18"
+                height="6"
+                fill="#bff6ff"
+                opacity=".5"
+                stroke="#2fbfb3"
+                stroke-width="1.5"
+              />
+              <rect
+                x="7"
+                y="13"
+                width="18"
+                height="6"
+                fill="#e8f4ff"
+                stroke="#2fbfb3"
+                stroke-width="1.5"
+              />
+            </svg>
+            <div>
+              <strong>Splitter</strong>
+              <p>
+                Lets half the light straight through and bounces the other half.
+              </p>
+            </div>
+          </li>
+          <li class="guide-item" data-topics="filter">
+            <svg viewBox="0 0 32 32" aria-hidden="true">
+              <circle
+                cx="16"
+                cy="16"
+                r="11"
+                fill="#1f2a33"
+                stroke="#e8d7a6"
+                stroke-width="2.5"
+              />
+              <path
+                d="M10 12h12M9 16h14M10 20h12"
+                stroke="#fff"
+                stroke-width="2"
+              />
+            </svg>
+            <div>
+              <strong>Filter</strong>
+              <p>
+                Lets half of ordinary light through. Light that has passed one
+                filter dims more the further the next filter is turned from it;
+                turned across, it lets none through.
+              </p>
+            </div>
+          </li>
+          <li class="guide-item" data-topics="glass">
+            <svg viewBox="0 0 32 32" aria-hidden="true">
+              <path
+                d="M16 5l9 5v12l-9 5-9-5V10z"
+                fill="#ff5fd2"
+                opacity=".85"
+              />
+            </svg>
+            <div>
+              <strong>Colored glass</strong>
+              <p>
+                Lets only its own colors through: white light through magenta
+                glass comes out magenta.
+              </p>
+            </div>
+          </li>
+          <li class="guide-item" data-topics="prism">
+            <svg viewBox="0 0 32 32" aria-hidden="true">
+              <path
+                d="M16 5l11 20H5z"
+                fill="#e8f4ff"
+                opacity=".7"
+                stroke="#8fd0ff"
+              />
+              <path d="M8 25h5" stroke="#ff4d4d" stroke-width="2.5" />
+              <path d="M13.5 25h5" stroke="#3fd46a" stroke-width="2.5" />
+              <path d="M19 25h5" stroke="#4d7dff" stroke-width="2.5" />
+            </svg>
+            <div>
+              <strong>Prism</strong>
+              <p>
+                Spreads light into its colors: red goes straight, green bends an
+                eighth of a turn toward the rainbow side, blue a quarter.
+              </p>
+            </div>
+          </li>
+          <li class="guide-item" data-topics="tilted stacked-decks">
+            <svg viewBox="0 0 32 32" aria-hidden="true">
+              <rect x="4" y="8" width="24" height="4" fill="#9c8f79" />
+              <path d="M8 26l8-8" stroke="#cfe3ef" stroke-width="4" />
+              <path
+                d="M20 26v-14"
+                stroke="#ffd447"
+                stroke-width="2"
+                stroke-dasharray="2 2"
+              />
+            </svg>
+            <div>
+              <strong>Tilted mirror and deck</strong>
+              <p>
+                Turns light straight up to the deck above, or down from it. Face
+                it at the light; it turns a quarter at a time. Decks can stack:
+                light climbs to the nearest tilted mirror above it.
+              </p>
+            </div>
+          </li>
+          <li class="guide-item" data-topics="gloom">
+            <svg viewBox="0 0 32 32" aria-hidden="true">
+              <path
+                d="M10 26l3-14 3 14M15 26l3-18 3 18M20 26l2-10 2 10"
+                fill="#7a0f24"
+              />
+              <circle cx="16" cy="6" r="2.5" fill="#4d7dff" />
+            </svg>
+            <div>
+              <strong>Gloom seal</strong>
+              <p>
+                Blocks all light, until light containing its color (shown by its
+                ring) touches it. Then it melts away.
+              </p>
+            </div>
+          </li>
+          <li class="guide-item" data-topics="obsidian">
+            <svg viewBox="0 0 32 32" aria-hidden="true">
+              <rect
+                x="7"
+                y="13"
+                width="18"
+                height="5"
+                fill="#0a0606"
+                stroke="#ff7a2a"
+                stroke-width="1.5"
+              />
+              <rect
+                x="7"
+                y="9"
+                width="18"
+                height="4"
+                fill="#e8f4ff"
+                stroke="#ff7a2a"
+                stroke-width="1.5"
+              />
+            </svg>
+            <div>
+              <strong>One-sided mirror</strong>
+              <p>
+                A mirror with a dark back. Only its shiny face reflects; light
+                hitting the back is swallowed. It turns a quarter at a time.
+              </p>
+            </div>
+          </li>
+          <li class="guide-item" data-topics="switch gate-stays-open">
+            <svg viewBox="0 0 32 32" aria-hidden="true">
+              <path d="M10 24h12l-2-8h-8z" fill="#3e3434" />
+              <path d="M16 6c3 4 3 7 0 10-3-3-3-6 0-10z" fill="#ff9a4a" />
+              <rect x="24" y="12" width="5" height="12" fill="#58504f" />
+              <rect x="24" y="16" width="5" height="2" fill="#ff9a4a" />
+            </svg>
+            <div>
+              <strong>Switch and gate</strong>
+              <p>
+                Light of the switch's color lights it, and every gate with a
+                band of that color sinks to let light through. Take the light
+                away and the gates rise again, except late in the Underworld, where a
+                gate stays open once the light has rested on its switch.
+              </p>
+            </div>
+          </li>
+          <li class="guide-item" data-topics="block">
+            <svg viewBox="0 0 32 32" aria-hidden="true">
+              <rect
+                x="7"
+                y="9"
+                width="18"
+                height="16"
+                fill="#c8bda8"
+                stroke="#9c8f79"
+                stroke-width="1.5"
+              />
+              <rect x="7" y="9" width="18" height="4" fill="#7fae4a" />
+            </svg>
+            <div>
+              <strong>Stone block</strong>
+              <p>Stops light.</p>
+            </div>
+          </li>
+          <li class="guide-item" data-topics="lava">
+            <svg viewBox="0 0 32 32" aria-hidden="true">
+              <path d="M3 22c4-3 8 3 13 0s9-3 13 0v6H3z" fill="#e8642a" />
+              <path d="M6 18l4-6h8l3 6z" fill="#5a4a44" />
+              <path d="M4 15h24" stroke="#ff9a4a" stroke-width="2" />
+            </svg>
+            <div>
+              <strong>Lava</strong>
+              <p>
+                Light crosses the lava from island to island; only tall rock
+                stops it.
+              </p>
+            </div>
+          </li>
+          <li class="guide-item" data-topics="carried">
+            <svg viewBox="0 0 32 32" aria-hidden="true">
+              <rect
+                x="6"
+                y="6"
+                width="20"
+                height="20"
+                rx="5"
+                fill="#fff"
+                stroke="#1d3347"
+                stroke-width="1.5"
+              />
+              <path d="M11 21l10-10" stroke="#1d3347" stroke-width="2.5" />
+            </svg>
+            <div>
+              <strong>Carried pieces</strong>
+              <p>
+                Pieces in the tray at the bottom. Tap an empty tile to set one
+                down; hold it to pick it back up.
+              </p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="world-veil" class="world-veil" aria-hidden="true"></div>
+
+  </body>
+</html>

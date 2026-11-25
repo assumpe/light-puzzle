@@ -7,9 +7,9 @@
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
     <meta name="theme-color" content="#3d8bd6" />
-    <title>Untitled light puzzle</title>
-    <script type="module" crossorigin src="./assets/index-CYx2iyt1.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-Ch5mmmPD.css">
+    <title>Light Puzzle</title>
+    <script type="module" crossorigin src="./assets/index-Bmn4QJiW.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-BLZU-RCG.css">
   </head>
   <body>
     <div class="sky" aria-hidden="true">
@@ -18,9 +18,23 @@
       <div class="orb orb-periwinkle"></div>
     </div>
 
+    <button
+      id="music-button"
+      class="music-button"
+      type="button"
+      aria-label="Music"
+      aria-pressed="true"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M9.5 17.5V6l9-2v11.5" />
+        <circle cx="7" cy="17.5" r="2.5" />
+        <circle cx="16" cy="15.5" r="2.5" />
+        <path class="music-off" d="M4 4l16 16" />
+      </svg>
+    </button>
+
     <main id="start-screen" class="screen start">
-      <!-- The game's name is still being decided; this placeholder stands in for it. -->
-      <h1 class="title">untitled</h1>
+      <h1 class="title">light puzzle</h1>
       <div class="hairline" aria-hidden="true"></div>
       <div class="home-actions">
         <button id="play-button" class="text-button" type="button">
@@ -361,8 +375,8 @@
               <p>
                 Light of the switch's color lights it, and every gate with a
                 band of that color sinks to let light through. Take the light
-                away and the gates rise again, except late in the Underworld, where a
-                gate stays open once the light has rested on its switch.
+                away and the gates rise again, except late in the Underworld,
+                where a gate stays open once the light has rested on its switch.
               </p>
             </div>
           </li>
